@@ -11,12 +11,12 @@
                 int countCorrectAnswer = 0;
 
                 Console.Write("Напиши своё имя: ");
-                string userName = Console.ReadLine();
+                string userName = Console.ReadLine() ?? "Неизвестный";
 
                 for (int i = 0; i < questions.Length; i++)
                 {
                     Console.WriteLine($"Вопрос №{i + 1} \n{questions[i]}");
-                    (string userAnswer, string correctAnswer) = (Console.ReadLine(), answers[i]);
+                    (string userAnswer, string correctAnswer) = (Console.ReadLine() ?? "0", answers[i]);
                     if (userAnswer == correctAnswer)
                         countCorrectAnswer++;
                 }
@@ -31,7 +31,7 @@
         static bool RepeatAgain()
         {
             Console.Write("Есть желание повторить тест? (да/нет): ");
-            return Console.ReadLine().ToLower() == "да";
+            return Console.ReadLine()?.ToLower() == "да";
         }
 
         static string GetDiagnoses(int countCorrectAnswer) => countCorrectAnswer switch
