@@ -24,11 +24,16 @@
                 string diagnose = GetDiagnose(countCorrectAnswer);
 
                 Console.WriteLine($"{userName}, твой диагноз - {diagnose}");
-
-                Console.Write("Есть желание повторить тест? (да/нет): ");
             }
-            while (Console.ReadLine().ToLower() == "да");
+            while (RepeatAgain());
         }
+
+        static bool RepeatAgain()
+        {
+            Console.Write("Есть желание повторить тест? (да/нет): ");
+            return Console.ReadLine().ToLower() == "да";
+        }
+
         static string GetDiagnose(int countCorrectAnswer) => countCorrectAnswer switch
         {
             0 => "Идиот",
