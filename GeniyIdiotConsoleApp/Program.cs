@@ -12,7 +12,7 @@
             
             for (int i = 0; i < questions.Length; i++)
             {
-                Console.WriteLine(questions[i]);
+                Console.WriteLine($"Вопрос №{i + 1} \n{questions[i]}");
                 (string userAnswer, string correctAnswer) = (Console.ReadLine(), answers[i]);
                 if (userAnswer == correctAnswer)
                     countCorrectAnswer++;
