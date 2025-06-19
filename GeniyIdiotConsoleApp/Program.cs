@@ -21,7 +21,7 @@
                         countCorrectAnswer++;
                 }
 
-                string diagnose = GetDiagnose(countCorrectAnswer);
+                string diagnose = GetDiagnoses(countCorrectAnswer);
 
                 Console.WriteLine($"{userName}, твой диагноз - {diagnose}");
             }
@@ -34,7 +34,7 @@
             return Console.ReadLine().ToLower() == "да";
         }
 
-        static string GetDiagnose(int countCorrectAnswer) => countCorrectAnswer switch
+        static string GetDiagnoses(int countCorrectAnswer) => countCorrectAnswer switch
         {
             0 => "Идиот",
             1 => "Кретин",
