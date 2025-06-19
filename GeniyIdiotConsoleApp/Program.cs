@@ -9,6 +9,9 @@
             (string[] questions, string[] answers) = GetQuestionsAndAnswer();
 
             int countCorrectAnswer = 0;
+
+            Console.Write("Напиши своё имя: ");
+            string userName = Console.ReadLine();
             
             for (int i = 0; i < questions.Length; i++)
             {
@@ -20,7 +23,7 @@
 
             string diagnose = GetDiagnose(countCorrectAnswer);
 
-            Console.WriteLine($"Твой диагноз - Ты {diagnose}");
+            Console.WriteLine($"{userName}, твой диагноз - {diagnose}");
         }
         static string GetDiagnose(int countCorrectAnswer) => countCorrectAnswer switch
         {
