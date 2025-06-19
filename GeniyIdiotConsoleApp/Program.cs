@@ -4,26 +4,30 @@
     {
         static void Main(string[] args)
         {
-            int countQuestions = 5;
-
-            (string[] questions, string[] answers) = GetQuestionsAndAnswer();
-
-            int countCorrectAnswer = 0;
-
-            Console.Write("Напиши своё имя: ");
-            string userName = Console.ReadLine();
-            
-            for (int i = 0; i < questions.Length; i++)
+            do
             {
-                Console.WriteLine($"Вопрос №{i + 1} \n{questions[i]}");
-                (string userAnswer, string correctAnswer) = (Console.ReadLine(), answers[i]);
-                if (userAnswer == correctAnswer)
-                    countCorrectAnswer++;
+                (string[] questions, string[] answers) = GetQuestionsAndAnswer();
+
+                int countCorrectAnswer = 0;
+
+                Console.Write("Напиши своё имя: ");
+                string userName = Console.ReadLine();
+
+                for (int i = 0; i < questions.Length; i++)
+                {
+                    Console.WriteLine($"Вопрос №{i + 1} \n{questions[i]}");
+                    (string userAnswer, string correctAnswer) = (Console.ReadLine(), answers[i]);
+                    if (userAnswer == correctAnswer)
+                        countCorrectAnswer++;
+                }
+
+                string diagnose = GetDiagnose(countCorrectAnswer);
+
+                Console.WriteLine($"{userName}, твой диагноз - {diagnose}");
+
+                Console.Write("Есть желание повторить тест? (да/нет): ");
             }
-
-            string diagnose = GetDiagnose(countCorrectAnswer);
-
-            Console.WriteLine($"{userName}, твой диагноз - {diagnose}");
+            while (Console.ReadLine().ToLower() == "да");
         }
         static string GetDiagnose(int countCorrectAnswer) => countCorrectAnswer switch
         {
