@@ -18,7 +18,17 @@
                     countCorrectAnswer++;
             }
 
-            Console.WriteLine(countCorrectAnswer);
+            string diagnose = countCorrectAnswer switch
+            {
+                0 => "Идиот",
+                1 => "Кретин",
+                2 => "Дурак",
+                3 => "Нормальный",
+                4 => "Талант",
+                5 => "Гений"
+            };
+
+            Console.WriteLine($"Твой диагноз - Ты {diagnose}");
         }
         static (string[], string[]) GetQuestionsAndAnswer()
         {
