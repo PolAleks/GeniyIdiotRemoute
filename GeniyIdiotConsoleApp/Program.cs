@@ -6,7 +6,7 @@
         {
             do
             {
-                (string[] questions, string[] answers) = GetQuestionsAndAnswer();
+                (string[] questions, int[] answers) = GetQuestionsAndAnswer();
 
                 int countCorrectAnswer = 0;
 
@@ -16,7 +16,7 @@
                 for (int i = 0; i < questions.Length; i++)
                 {
                     Console.WriteLine($"Вопрос №{i + 1} \n{questions[i]}");
-                    (string userAnswer, string correctAnswer) = (Console.ReadLine() ?? "0", answers[i]);
+                    (int userAnswer, int correctAnswer) = (GetUserAnswer(), answers[i]);
                     if (userAnswer == correctAnswer)
                         countCorrectAnswer++;
                 }
@@ -28,6 +28,15 @@
             while (RepeatAgain());
         }
 
+        static int GetUserAnswer()
+        {
+            while(true)
+            {
+                if(int.TryParse(Console.ReadLine(), out int answer))
+                    return answer;
+                Console.Write("Пожалуйста, введите число! ");
+            }  
+        }
         static bool RepeatAgain()
         {
             Console.Write("Есть желание повторить тест? (да/нет): ");
@@ -50,7 +59,7 @@
             5 => "Гений"
         };
 
-        static (string[], string[]) GetQuestionsAndAnswer()
+        static (string[], int[]) GetQuestionsAndAnswer()
         {
             string[] questions =
             [
@@ -61,14 +70,14 @@
                 "Пять свечей горело, две потухли. Сколько свечей осталось?"
             ];
 
-            string[] answers = ["6", "9", "25", "60", "2"];
+            int[] answers = [ 6, 9, 25, 60, 2 ];
 
             Shuffles(questions, answers);
 
             return (questions, answers);
         }
 
-        static void Shuffles(string[] questions, string[] answers)
+        static void Shuffles(string[] questions, int[] answers)
         {
             Random random = new Random();
             for (int currentIndex = questions.Length - 1; currentIndex > 0; currentIndex--)
