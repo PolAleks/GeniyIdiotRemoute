@@ -64,9 +64,9 @@
             string[] answers = ["6", "9", "25", "60", "2"];
 
             Random random = new Random();
-            for (int currentIndex = 0; currentIndex < questions.Length; currentIndex++)
+            for (int currentIndex = questions.Length - 1; currentIndex > 0; currentIndex--)
             {
-                int newIndex = random.Next(questions.Length);
+                int newIndex = random.Next(currentIndex);
                 (questions[currentIndex], questions[newIndex]) = (questions[newIndex], questions[currentIndex]);
                 (answers[currentIndex], answers[newIndex]) = (answers[newIndex], answers[currentIndex]);
             }
