@@ -31,7 +31,13 @@
         static bool RepeatAgain()
         {
             Console.Write("Есть желание повторить тест? (да/нет): ");
-            return Console.ReadLine()?.ToLower() == "да";
+            while(true)
+            {
+                string input = Console.ReadLine()?.ToLower() ?? string.Empty;
+                if (input == "да") return true;
+                else if (input == "нет") return false;
+                else Console.Write("Некорректный ввод! Повторить тест? (да/нет): ");
+            }
         }
 
         static string GetDiagnoses(int countCorrectAnswer) => countCorrectAnswer switch
