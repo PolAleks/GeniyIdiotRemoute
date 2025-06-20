@@ -63,6 +63,13 @@
 
             string[] answers = ["6", "9", "25", "60", "2"];
 
+            Shuffles(questions, answers);
+
+            return (questions, answers);
+        }
+
+        static void Shuffles(string[] questions, string[] answers)
+        {
             Random random = new Random();
             for (int currentIndex = questions.Length - 1; currentIndex > 0; currentIndex--)
             {
@@ -70,8 +77,6 @@
                 (questions[currentIndex], questions[newIndex]) = (questions[newIndex], questions[currentIndex]);
                 (answers[currentIndex], answers[newIndex]) = (answers[newIndex], answers[currentIndex]);
             }
-
-            return (questions, answers);
         }
     }
 }
