@@ -4,7 +4,40 @@
     {
         static void Main(string[] args)
         {
-            StartTesting();
+            ShowMenu();
+        }
+
+        private static void ShowMenu()
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("1. Показать результаты тестирования.");
+                Console.WriteLine("2. Пройти тестирование.");
+                Console.Write("Выберите 1 или 2: ");
+                string userChoice = Console.ReadLine() ?? string.Empty;
+                if (int.TryParse(userChoice, out int choce))
+                {
+                    switch (choce)
+                    {
+                        case 1:
+                            ShowResultTesting();
+                            break;
+                        case 2:
+                            StartTesting();
+                            break;
+                        default:
+                            Console.WriteLine("Некорректный выбор! Можно ввести только 1 или 2.");
+                            Console.ReadKey();
+                            continue;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Для выбора дальнейшего действия требуется ввести номер пункта меню.");
+                    Console.ReadKey();
+                }
+            }
         }
 
         static void StartTesting()
@@ -35,17 +68,17 @@
 
         static int GetUserAnswer()
         {
-            while(true)
+            while (true)
             {
-                if(int.TryParse(Console.ReadLine(), out int answer))
+                if (int.TryParse(Console.ReadLine(), out int answer))
                     return answer;
                 Console.Write("Пожалуйста, введите число! ");
-            }  
+            }
         }
         static bool RepeatAgain()
         {
             Console.Write("Есть желание повторить тест? (да/нет): ");
-            while(true)
+            while (true)
             {
                 string input = Console.ReadLine()?.ToLower() ?? string.Empty;
                 if (input == "да") return true;
@@ -82,7 +115,7 @@
                 "Пять свечей горело, две потухли. Сколько свечей осталось?"
             ];
 
-            int[] answers = [ 6, 9, 25, 60, 2 ];
+            int[] answers = [6, 9, 25, 60, 2];
 
             Shuffles(questions, answers);
 
@@ -98,6 +131,11 @@
                 (questions[currentIndex], questions[newIndex]) = (questions[newIndex], questions[currentIndex]);
                 (answers[currentIndex], answers[newIndex]) = (answers[newIndex], answers[currentIndex]);
             }
+        }
+
+        static void ShowResultTesting()
+        {
+            throw new NotImplementedException();
         }
     }
 }
