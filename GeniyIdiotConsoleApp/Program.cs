@@ -4,6 +4,11 @@
     {
         static void Main(string[] args)
         {
+            StartTesting();
+        }
+
+        static void StartTesting()
+        {
             do
             {
                 (string[] questions, int[] answers) = GetQuestionsAndAnswer();
