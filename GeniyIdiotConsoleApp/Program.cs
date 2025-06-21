@@ -61,9 +61,31 @@
 
                 string diagnose = GetDiagnoses(countCorrectAnswer, answers.Length);
 
+                RecordingDiagnoseInLogFile(userName, countCorrectAnswer, diagnose);
+
                 Console.WriteLine($"{userName}, твой диагноз - {diagnose}");
             }
             while (RepeatAgain());
+        }
+
+        static void RecordingDiagnoseInLogFile(string name, int countCorrectAnswer, string diagnose)
+        {
+            if (string.IsNullOrEmpty(diagnose)) diagnose = "отсутствует";
+
+            string pathToFolder = Environment.CurrentDirectory;
+            string nameLogFile = Path.Combine(pathToFolder, "log.txt");
+
+            bool isFirstRecord = false;
+            if (!File.Exists(nameLogFile))
+            {
+                isFirstRecord = true;
+            }
+
+            using (StreamWriter sw = new StreamWriter(nameLogFile, true, System.Text.Encoding.Default))
+            {
+                if (isFirstRecord) sw.WriteLine($"{"ФИО",-25}{"Кол-во ответов",-15}{"Диагноз",-15}");
+                sw.WriteLine($"{name,-25}{countCorrectAnswer,-15}{diagnose,-15}");
+            }
         }
 
         static int GetUserAnswer()
