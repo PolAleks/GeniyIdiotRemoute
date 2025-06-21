@@ -83,8 +83,8 @@
 
             using (StreamWriter sw = new StreamWriter(nameLogFile, true, System.Text.Encoding.Default))
             {
-                if (isFirstRecord) sw.WriteLine($"{"ФИО",-25}{"Кол-во ответов",-15}{"Диагноз",-15}");
-                sw.WriteLine($"{name,-25}{countCorrectAnswer,-15}{diagnose,-15}");
+                if (isFirstRecord) sw.WriteLine($"{"ФИО",-25}{"Кол-во ответов",-20}{"Диагноз",-15}");
+                sw.WriteLine($"{name,-25}{countCorrectAnswer,-20}{diagnose,-15}");
             }
         }
 
@@ -157,6 +157,8 @@
 
         static void ShowResultTesting()
         {
+            Console.Clear();
+
             string pathToFolder = Environment.CurrentDirectory;
             string nameLogFile = Path.Combine(pathToFolder, "log.txt");
             
@@ -170,7 +172,9 @@
                     }
                 }
             }
-            else Console.WriteLine("Результаты проведенных тестирований отсутствуют.\nДля возвращение в меню, нажмите любую клавишу.");
+            else Console.WriteLine("Результаты проведенных тестирований отсутствуют.");
+
+            Console.WriteLine("Для возвращение в меню, нажмите любую клавишу.");
             Console.ReadKey();
         }
     }
