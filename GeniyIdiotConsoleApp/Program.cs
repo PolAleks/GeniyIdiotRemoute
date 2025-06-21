@@ -4,6 +4,44 @@
     {
         static void Main(string[] args)
         {
+            ShowMenu();
+        }
+
+        private static void ShowMenu()
+        {
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine("1. Показать результаты тестирования.");
+                Console.WriteLine("2. Пройти тестирование.");
+                Console.Write("Выберите 1 или 2: ");
+                string userChoice = Console.ReadLine() ?? string.Empty;
+                if (int.TryParse(userChoice, out int choce))
+                {
+                    switch (choce)
+                    {
+                        case 1:
+                            ShowResultTesting();
+                            break;
+                        case 2:
+                            StartTesting();
+                            break;
+                        default:
+                            Console.WriteLine("Некорректный выбор! Можно ввести только 1 или 2.");
+                            Console.ReadKey();
+                            continue;
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Для выбора дальнейшего действия требуется ввести номер пункта меню.");
+                    Console.ReadKey();
+                }
+            }
+        }
+
+        static void StartTesting()
+        {
             do
             {
                 (string[] questions, int[] answers) = GetQuestionsAndAnswer();
@@ -23,24 +61,46 @@
 
                 string diagnose = GetDiagnoses(countCorrectAnswer, answers.Length);
 
+                RecordingDiagnoseInLogFile(userName, countCorrectAnswer, diagnose);
+
                 Console.WriteLine($"{userName}, твой диагноз - {diagnose}");
             }
             while (RepeatAgain());
         }
 
+        static void RecordingDiagnoseInLogFile(string name, int countCorrectAnswer, string diagnose)
+        {
+            if (string.IsNullOrEmpty(diagnose)) diagnose = "отсутствует";
+
+            string pathToFolder = Environment.CurrentDirectory;
+            string nameLogFile = Path.Combine(pathToFolder, "log.txt");
+
+            bool isFirstRecord = false;
+            if (!File.Exists(nameLogFile))
+            {
+                isFirstRecord = true;
+            }
+
+            using (StreamWriter sw = new StreamWriter(nameLogFile, true, System.Text.Encoding.Default))
+            {
+                if (isFirstRecord) sw.WriteLine($"{"ФИО",-25}{"Кол-во ответов",-20}{"Диагноз",-15}");
+                sw.WriteLine($"{name,-25}{countCorrectAnswer,-20}{diagnose,-15}");
+            }
+        }
+
         static int GetUserAnswer()
         {
-            while(true)
+            while (true)
             {
-                if(int.TryParse(Console.ReadLine(), out int answer))
+                if (int.TryParse(Console.ReadLine(), out int answer))
                     return answer;
                 Console.Write("Пожалуйста, введите число! ");
-            }  
+            }
         }
         static bool RepeatAgain()
         {
             Console.Write("Есть желание повторить тест? (да/нет): ");
-            while(true)
+            while (true)
             {
                 string input = Console.ReadLine()?.ToLower() ?? string.Empty;
                 if (input == "да") return true;
@@ -77,7 +137,7 @@
                 "Пять свечей горело, две потухли. Сколько свечей осталось?"
             ];
 
-            int[] answers = [ 6, 9, 25, 60, 2 ];
+            int[] answers = [6, 9, 25, 60, 2];
 
             Shuffles(questions, answers);
 
@@ -93,6 +153,29 @@
                 (questions[currentIndex], questions[newIndex]) = (questions[newIndex], questions[currentIndex]);
                 (answers[currentIndex], answers[newIndex]) = (answers[newIndex], answers[currentIndex]);
             }
+        }
+
+        static void ShowResultTesting()
+        {
+            Console.Clear();
+
+            string pathToFolder = Environment.CurrentDirectory;
+            string nameLogFile = Path.Combine(pathToFolder, "log.txt");
+            
+            if (File.Exists(nameLogFile))
+            {
+                using (StreamReader sr = new StreamReader(nameLogFile))
+                {
+                    while (!sr.EndOfStream)
+                    {
+                        Console.WriteLine(sr.ReadLine());
+                    }
+                }
+            }
+            else Console.WriteLine("Результаты проведенных тестирований отсутствуют.");
+
+            Console.WriteLine("Для возвращение в меню, нажмите любую клавишу.");
+            Console.ReadKey();
         }
     }
 }
