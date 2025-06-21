@@ -21,7 +21,7 @@
                         countCorrectAnswer++;
                 }
 
-                string diagnose = GetDiagnoses(countCorrectAnswer);
+                string diagnose = GetDiagnoses(countCorrectAnswer, answers.Length);
 
                 Console.WriteLine($"{userName}, твой диагноз - {diagnose}");
             }
@@ -49,15 +49,22 @@
             }
         }
 
-        static string GetDiagnoses(int countCorrectAnswer) => countCorrectAnswer switch
+        static string GetDiagnoses(int countCorrectAnswer, int countAnswer)
         {
-            0 => "Идиот",
-            1 => "Кретин",
-            2 => "Дурак",
-            3 => "Нормальный",
-            4 => "Талант",
-            5 => "Гений"
-        };
+            if (countCorrectAnswer == 0) return "Идиот";
+
+            double percentage = ((double)countCorrectAnswer / countAnswer) * 100;
+
+            return percentage switch
+            {
+                100 => "Гений",
+                >= 80 => "Талант",
+                >= 60 => "Нормальный",
+                >= 40 => "Дурак",
+                >= 20 => "Кретин",
+                _ => "Идиот"
+            };
+        }
 
         static (string[], int[]) GetQuestionsAndAnswer()
         {
