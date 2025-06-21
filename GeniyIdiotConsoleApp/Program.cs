@@ -135,7 +135,21 @@
 
         static void ShowResultTesting()
         {
-            throw new NotImplementedException();
+            string pathToFolder = Environment.CurrentDirectory;
+            string nameLogFile = Path.Combine(pathToFolder, "log.txt");
+            
+            if (File.Exists(nameLogFile))
+            {
+                using (StreamReader sr = new StreamReader(nameLogFile))
+                {
+                    while (!sr.EndOfStream)
+                    {
+                        Console.WriteLine(sr.ReadLine());
+                    }
+                }
+            }
+            else Console.WriteLine("Результаты проведенных тестирований отсутствуют.\nДля возвращение в меню, нажмите любую клавишу.");
+            Console.ReadKey();
         }
     }
 }
