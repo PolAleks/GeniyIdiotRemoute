@@ -120,8 +120,6 @@
 
         static string GetDiagnoses(int countCorrectAnswer, int countAnswer)
         {
-            if (countCorrectAnswer == 0) return "Идиот";
-
             double percentage = ((double)countCorrectAnswer / countAnswer) * 100;
 
             return percentage switch
