@@ -30,17 +30,26 @@
 
         static int GetUserAnswer()
         {
-            while(true)
+            while (true)
             {
-                if(int.TryParse(Console.ReadLine(), out int answer))
-                    return answer;
-                Console.Write("Пожалуйста, введите число! ");
-            }  
+                try
+                {
+                    return Convert.ToInt32(Console.ReadLine());
+                }
+                catch (FormatException)
+                {
+                    Console.Write("Пожалуйста, введите число!");
+                }
+                catch (OverflowException)
+                {
+                    Console.Write("Число должно быть не более 2*10^9!");
+                }
+            }
         }
         static bool RepeatAgain()
         {
             Console.Write("Есть желание повторить тест? (да/нет): ");
-            while(true)
+            while (true)
             {
                 string input = Console.ReadLine()?.ToLower() ?? string.Empty;
                 if (input == "да") return true;
@@ -70,7 +79,7 @@
                 "Пять свечей горело, две потухли. Сколько свечей осталось?"
             ];
 
-            int[] answers = [ 6, 9, 25, 60, 2 ];
+            int[] answers = [6, 9, 25, 60, 2];
 
             Shuffles(questions, answers);
 
