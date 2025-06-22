@@ -92,9 +92,18 @@
         {
             while (true)
             {
-                if (int.TryParse(Console.ReadLine(), out int answer))
-                    return answer;
-                Console.Write("Пожалуйста, введите число! ");
+                try
+                {
+                    return Convert.ToInt32(Console.ReadLine());
+                }
+                catch (FormatException)
+                {
+                    Console.Write("Пожалуйста, введите число!");
+                }
+                catch (OverflowException)
+                {
+                    Console.Write("Число должно быть не более 2*10^9!");
+                }
             }
         }
         static bool RepeatAgain()
