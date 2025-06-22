@@ -75,16 +75,9 @@
             string pathToFolder = Environment.CurrentDirectory;
             string nameLogFile = Path.Combine(pathToFolder, "log.txt");
 
-            bool isFirstRecord = false;
-            if (!File.Exists(nameLogFile))
-            {
-                isFirstRecord = true;
-            }
-
             using (StreamWriter sw = new StreamWriter(nameLogFile, true, System.Text.Encoding.Default))
             {
-                if (isFirstRecord) sw.WriteLine($"{"ФИО",-25}{"Кол-во ответов",-20}{"Диагноз",-15}");
-                sw.WriteLine($"{name,-25}{countCorrectAnswer,-20}{diagnose,-15}");
+                sw.WriteLine($"{name}#{countCorrectAnswer}#{diagnose}");
             }
         }
 
@@ -168,14 +161,18 @@
 
             string pathToFolder = Environment.CurrentDirectory;
             string nameLogFile = Path.Combine(pathToFolder, "log.txt");
-            
+
             if (File.Exists(nameLogFile))
             {
                 using (StreamReader sr = new StreamReader(nameLogFile))
                 {
+                    Console.WriteLine($"{"Имя",-15}{"Правильные ответы",18}{"Диагноз",15}");
+                    
                     while (!sr.EndOfStream)
                     {
-                        Console.WriteLine(sr.ReadLine());
+                        var data = sr.ReadLine().Split('#');
+                        (string nameUser, int countCorrectAnswer, string diagnose) = (data[0], Convert.ToInt32(data[1]), data[2]);
+                        Console.WriteLine($"{nameUser,-15}{countCorrectAnswer,10}{diagnose,23}");
                     }
                 }
             }
