@@ -44,14 +44,14 @@
         {
             do
             {
-                (string[] questions, int[] answers) = GetQuestionsAndAnswer();
+                (var questions, var answers) = GetQuestionsAndAnswer();
 
                 int countCorrectAnswer = 0;
 
                 Console.Write("Напиши своё имя: ");
                 string userName = Console.ReadLine() ?? "Неизвестный";
 
-                for (int i = 0; i < questions.Length; i++)
+                for (int i = 0; i < questions.Count; i++)
                 {
                     Console.WriteLine($"Вопрос №{i + 1} \n{questions[i]}");
                     (int userAnswer, int correctAnswer) = (GetUserAnswer(), answers[i]);
@@ -59,7 +59,7 @@
                         countCorrectAnswer++;
                 }
 
-                string diagnose = GetDiagnoses(countCorrectAnswer, answers.Length);
+                string diagnose = GetDiagnoses(countCorrectAnswer, answers.Count);
 
                 RecordingDiagnoseInLogFile(userName, countCorrectAnswer, diagnose);
 
@@ -126,28 +126,28 @@
             };
         }
 
-        static (string[], int[]) GetQuestionsAndAnswer()
+        static (List<string>, List<int>) GetQuestionsAndAnswer()
         {
-            string[] questions =
-            [
+            var questions = new List<string>()
+            {
                 "Сколько будет два плюс два умноженное на два?",
                 "Бревно нужно распилить на 10 частей. Сколько распилов нужно сделать?",
                 "На двух руках 10 пальцев. Сколько пальцев на 5 руках?",
                 "Укол делают каждые полчаса. Сколько нужно минут, чтобы сделать три укола?",
                 "Пять свечей горело, две потухли. Сколько свечей осталось?"
-            ];
+            };
 
-            int[] answers = [6, 9, 25, 60, 2];
+            var answers = new List<int>() { 6, 9, 25, 60, 2 };
 
             Shuffles(questions, answers);
 
             return (questions, answers);
         }
 
-        static void Shuffles(string[] questions, int[] answers)
+        static void Shuffles(List<string> questions, List<int> answers)
         {
             Random random = new Random();
-            for (int currentIndex = questions.Length - 1; currentIndex > 0; currentIndex--)
+            for (int currentIndex = questions.Count - 1; currentIndex > 0; currentIndex--)
             {
                 int newIndex = random.Next(currentIndex);
                 (questions[currentIndex], questions[newIndex]) = (questions[newIndex], questions[currentIndex]);
