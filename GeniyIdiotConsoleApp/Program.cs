@@ -2,7 +2,7 @@
 {
     internal class Program
     {
-        
+
         static void Main(string[] args)
         {
             ShowMenu();
@@ -62,23 +62,13 @@
 
                 user.AddDiagnosis(questions.Count);
 
-                RecordingDiagnoseInLogFile(user);
+                UserResultsStorage.Save(user);
 
                 Console.WriteLine($"{user.name}, твой диагноз - {user.diagnosis}");
             }
             while (RepeatAgain());
         }
 
-        static void RecordingDiagnoseInLogFile(User user)
-        {
-            string pathToFolder = Environment.CurrentDirectory;
-            string nameLogFile = Path.Combine(pathToFolder, "log.txt");
-
-            using (StreamWriter sw = new StreamWriter(nameLogFile, true, System.Text.Encoding.Default))
-            {
-                sw.WriteLine($"{user.name}#{user.countCorrectAnswer}#{user.diagnosis}");
-            }
-        }
 
         static int GetUserAnswer()
         {
@@ -113,25 +103,17 @@
         static void ShowResultTesting()
         {
             Console.Clear();
-
-            string pathToFolder = Environment.CurrentDirectory;
-            string nameLogFile = Path.Combine(pathToFolder, "log.txt");
-
-            if (File.Exists(nameLogFile))
+            Console.WriteLine($"{"Имя",-15}{"Правильные ответы",18}{"Диагноз",15}");
+            var users = UserResultsStorage.GetAll();
+            if (users.Any())
             {
-                using (StreamReader sr = new StreamReader(nameLogFile))
+                foreach (var user in users)
                 {
-                    Console.WriteLine($"{"Имя",-15}{"Правильные ответы",18}{"Диагноз",15}");
-                    
-                    while (!sr.EndOfStream)
-                    {
-                        var data = sr.ReadLine().Split('#');
-                        (string nameUser, int countCorrectAnswer, string diagnose) = (data[0], Convert.ToInt32(data[1]), data[2]);
-                        Console.WriteLine($"{nameUser,-15}{countCorrectAnswer,10}{diagnose,23}");
-                    }
+                    Console.WriteLine($"{user.name,-15}{user.countCorrectAnswer,10}{user.diagnosis,23}");
                 }
             }
-            else Console.WriteLine("Результаты проведенных тестирований отсутствуют.");
+            else 
+                Console.WriteLine("Результаты проведенных тестирований отсутствуют.");
 
             Console.WriteLine("Для возвращение в меню, нажмите любую клавишу.");
             Console.ReadKey();
