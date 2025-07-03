@@ -47,39 +47,36 @@
             {
                 var questions = QuestionStorage.GetAllQuestions();
 
-
-                int countCorrectAnswer = 0;
-
                 Console.Write("Напиши своё имя: ");
                 string userName = Console.ReadLine() ?? "Неизвестный";
+
+                var user = new User(userName);
 
                 for (int i = 0; i < questions.Count; i++)
                 {
                     Console.WriteLine($"Вопрос №{i + 1} \n{questions[i].text}");
                     (int userAnswer, int correctAnswer) = (GetUserAnswer(), questions[i].answer);
                     if (userAnswer == correctAnswer)
-                        countCorrectAnswer++;
+                        user.AddCorrectAnswer();
                 }
 
-                string diagnose = GetDiagnoses(countCorrectAnswer, questions.Count);
+                user.AddDiagnosis(questions.Count);
 
-                RecordingDiagnoseInLogFile(userName, countCorrectAnswer, diagnose);
+                RecordingDiagnoseInLogFile(user);
 
-                Console.WriteLine($"{userName}, твой диагноз - {diagnose}");
+                Console.WriteLine($"{user.name}, твой диагноз - {user.diagnosis}");
             }
             while (RepeatAgain());
         }
 
-        static void RecordingDiagnoseInLogFile(string name, int countCorrectAnswer, string diagnose)
+        static void RecordingDiagnoseInLogFile(User user)
         {
-            if (string.IsNullOrEmpty(diagnose)) diagnose = "отсутствует";
-
             string pathToFolder = Environment.CurrentDirectory;
             string nameLogFile = Path.Combine(pathToFolder, "log.txt");
 
             using (StreamWriter sw = new StreamWriter(nameLogFile, true, System.Text.Encoding.Default))
             {
-                sw.WriteLine($"{name}#{countCorrectAnswer}#{diagnose}");
+                sw.WriteLine($"{user.name}#{user.countCorrectAnswer}#{user.diagnosis}");
             }
         }
 
@@ -112,24 +109,6 @@
                 else Console.Write("Некорректный ввод! Повторить тест? (да/нет): ");
             }
         }
-
-        static string GetDiagnoses(int countCorrectAnswer, int countAnswer)
-        {
-            double percentage = ((double)countCorrectAnswer / countAnswer) * 100;
-
-            return percentage switch
-            {
-                100 => "Гений",
-                >= 80 => "Талант",
-                >= 60 => "Нормальный",
-                >= 40 => "Дурак",
-                >= 20 => "Кретин",
-                _ => "Идиот"
-            };
-        }
-
-       
-
 
         static void ShowResultTesting()
         {
