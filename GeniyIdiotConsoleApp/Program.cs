@@ -2,6 +2,7 @@
 {
     internal class Program
     {
+
         static void Main(string[] args)
         {
             ShowMenu();
@@ -44,42 +45,30 @@
         {
             do
             {
-                (var questions, var answers) = GetQuestionsAndAnswer();
-
-                int countCorrectAnswer = 0;
+                var questions = QuestionStorage.GetAllQuestions();
 
                 Console.Write("Напиши своё имя: ");
                 string userName = Console.ReadLine() ?? "Неизвестный";
 
+                var user = new User(userName);
+
                 for (int i = 0; i < questions.Count; i++)
                 {
-                    Console.WriteLine($"Вопрос №{i + 1} \n{questions[i]}");
-                    (int userAnswer, int correctAnswer) = (GetUserAnswer(), answers[i]);
+                    Console.WriteLine($"Вопрос №{i + 1} \n{questions[i].text}");
+                    (int userAnswer, int correctAnswer) = (GetUserAnswer(), questions[i].answer);
                     if (userAnswer == correctAnswer)
-                        countCorrectAnswer++;
+                        user.AddCorrectAnswer();
                 }
 
-                string diagnose = GetDiagnoses(countCorrectAnswer, answers.Count);
+                user.AddDiagnosis(questions.Count);
 
-                RecordingDiagnoseInLogFile(userName, countCorrectAnswer, diagnose);
+                UserResultsStorage.Save(user);
 
-                Console.WriteLine($"{userName}, твой диагноз - {diagnose}");
+                Console.WriteLine($"{user.name}, твой диагноз - {user.diagnosis}");
             }
             while (RepeatAgain());
         }
 
-        static void RecordingDiagnoseInLogFile(string name, int countCorrectAnswer, string diagnose)
-        {
-            if (string.IsNullOrEmpty(diagnose)) diagnose = "отсутствует";
-
-            string pathToFolder = Environment.CurrentDirectory;
-            string nameLogFile = Path.Combine(pathToFolder, "log.txt");
-
-            using (StreamWriter sw = new StreamWriter(nameLogFile, true, System.Text.Encoding.Default))
-            {
-                sw.WriteLine($"{name}#{countCorrectAnswer}#{diagnose}");
-            }
-        }
 
         static int GetUserAnswer()
         {
@@ -111,72 +100,20 @@
             }
         }
 
-        static string GetDiagnoses(int countCorrectAnswer, int countAnswer)
-        {
-            double percentage = ((double)countCorrectAnswer / countAnswer) * 100;
-
-            return percentage switch
-            {
-                100 => "Гений",
-                >= 80 => "Талант",
-                >= 60 => "Нормальный",
-                >= 40 => "Дурак",
-                >= 20 => "Кретин",
-                _ => "Идиот"
-            };
-        }
-
-        static (List<string>, List<int>) GetQuestionsAndAnswer()
-        {
-            var questions = new List<string>()
-            {
-                "Сколько будет два плюс два умноженное на два?",
-                "Бревно нужно распилить на 10 частей. Сколько распилов нужно сделать?",
-                "На двух руках 10 пальцев. Сколько пальцев на 5 руках?",
-                "Укол делают каждые полчаса. Сколько нужно минут, чтобы сделать три укола?",
-                "Пять свечей горело, две потухли. Сколько свечей осталось?"
-            };
-
-            var answers = new List<int>() { 6, 9, 25, 60, 2 };
-
-            Shuffles(questions, answers);
-
-            return (questions, answers);
-        }
-
-        static void Shuffles(List<string> questions, List<int> answers)
-        {
-            Random random = new Random();
-            for (int currentIndex = questions.Count - 1; currentIndex > 0; currentIndex--)
-            {
-                int newIndex = random.Next(currentIndex);
-                (questions[currentIndex], questions[newIndex]) = (questions[newIndex], questions[currentIndex]);
-                (answers[currentIndex], answers[newIndex]) = (answers[newIndex], answers[currentIndex]);
-            }
-        }
-
         static void ShowResultTesting()
         {
             Console.Clear();
-
-            string pathToFolder = Environment.CurrentDirectory;
-            string nameLogFile = Path.Combine(pathToFolder, "log.txt");
-
-            if (File.Exists(nameLogFile))
+            Console.WriteLine($"{"Имя",-15}{"Правильные ответы",18}{"Диагноз",15}");
+            var users = UserResultsStorage.GetAll();
+            if (users.Any())
             {
-                using (StreamReader sr = new StreamReader(nameLogFile))
+                foreach (var user in users)
                 {
-                    Console.WriteLine($"{"Имя",-15}{"Правильные ответы",18}{"Диагноз",15}");
-                    
-                    while (!sr.EndOfStream)
-                    {
-                        var data = sr.ReadLine().Split('#');
-                        (string nameUser, int countCorrectAnswer, string diagnose) = (data[0], Convert.ToInt32(data[1]), data[2]);
-                        Console.WriteLine($"{nameUser,-15}{countCorrectAnswer,10}{diagnose,23}");
-                    }
+                    Console.WriteLine($"{user.name,-15}{user.countCorrectAnswer,10}{user.diagnosis,23}");
                 }
             }
-            else Console.WriteLine("Результаты проведенных тестирований отсутствуют.");
+            else 
+                Console.WriteLine("Результаты проведенных тестирований отсутствуют.");
 
             Console.WriteLine("Для возвращение в меню, нажмите любую клавишу.");
             Console.ReadKey();
