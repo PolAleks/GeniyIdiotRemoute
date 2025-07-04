@@ -29,7 +29,7 @@
                             StartTesting();
                             break;
                         case 3:
-                            QuestionStorage.Add();
+                            AddNewQuestion();
                             break;
                         default:
                             Console.WriteLine("Некорректный выбор! Можно ввести от 1 до 3");
@@ -43,6 +43,29 @@
                     Console.ReadKey();
                 }
             }
+        }
+
+        private static void AddNewQuestion()
+        {
+            string textQuestion = string.Empty;
+            int answerQuestion = default;
+
+            do
+            {
+                Console.Clear();
+                Console.Write("Введите текст вопроса: ");
+                textQuestion = Console.ReadLine();
+
+                Console.Write("Введите ответ на вопрос(только цифры): ");
+                answerQuestion = GetUserAnswer();
+
+                Console.WriteLine($"Текст вопроса: {textQuestion}");
+                Console.WriteLine($"Ответ на вопрос: {answerQuestion}");
+            }
+            while (!RepeatAgain("Все верно?"));
+
+            if (!string.IsNullOrEmpty(textQuestion))
+                QuestionStorage.Add(new Question(textQuestion, answerQuestion));
         }
 
         static void StartTesting()
@@ -70,7 +93,7 @@
 
                 Console.WriteLine($"{user.name}, твой диагноз - {user.diagnosis}");
             }
-            while (RepeatAgain());
+            while (RepeatAgain("Есть желание повторить тест?"));
         }
 
 
@@ -92,9 +115,9 @@
                 }
             }
         }
-        static bool RepeatAgain()
+        static bool RepeatAgain(string question)
         {
-            Console.Write("Есть желание повторить тест? (да/нет): ");
+            Console.Write($"{question} (да/нет): ");
             while (true)
             {
                 string input = Console.ReadLine()?.ToLower() ?? string.Empty;
