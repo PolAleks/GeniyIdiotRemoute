@@ -15,7 +15,8 @@
                 Console.Clear();
                 Console.WriteLine("1. Показать результаты тестирования.");
                 Console.WriteLine("2. Пройти тестирование.");
-                Console.Write("Выберите 1 или 2: ");
+                Console.WriteLine("3. Добавить новый вопрос.");
+                Console.Write("Введите номер пункта меню от 1 до 3: ");
                 string userChoice = Console.ReadLine() ?? string.Empty;
                 if (int.TryParse(userChoice, out int choce))
                 {
@@ -27,8 +28,10 @@
                         case 2:
                             StartTesting();
                             break;
+                        case 3:
+                            QuestionStorage.AddQuestion();
                         default:
-                            Console.WriteLine("Некорректный выбор! Можно ввести только 1 или 2.");
+                            Console.WriteLine("Некорректный выбор! Можно ввести от 1 до 3");
                             Console.ReadKey();
                             continue;
                     }
