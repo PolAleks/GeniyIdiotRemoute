@@ -9,5 +9,9 @@
             this.text = text;
             this.answer = answer;
         }
+        public override string ToString()
+        {
+            return $"{text}#{answer}";
+        }
     }
 }

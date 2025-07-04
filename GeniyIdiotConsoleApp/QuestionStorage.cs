@@ -2,11 +2,11 @@
 {
     public class QuestionStorage
     {
-        readonly static string _path = Path.Combine(Environment.CurrentDirectory, "questions.txt");
+        readonly static string _file = "questions.txt";
 
         public static List<Question> GetAll()
         {
-            var lines = FileServices.Load(_path);
+            var lines = FileServices.Load(_file);
 
             var questions = new List<Question>();
             foreach (var line in lines)
@@ -23,9 +23,9 @@
 
         public static void Add(Question question)
         {
-            if (File.Exists(_path))
+            if (File.Exists(_file))
             {
-                using (StreamWriter sw = new StreamWriter(_path, true, System.Text.Encoding.Default))
+                using (StreamWriter sw = new StreamWriter(_file, true, System.Text.Encoding.Default))
                 {
                     sw.WriteLine(question);
                 }
