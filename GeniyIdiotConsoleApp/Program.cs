@@ -112,7 +112,7 @@
                     Console.WriteLine($"{user.name,-15}{user.countCorrectAnswer,10}{user.diagnosis,23}");
                 }
             }
-            else 
+            else
                 Console.WriteLine("Результаты проведенных тестирований отсутствуют.");
 
             Console.WriteLine("Для возвращение в меню, нажмите любую клавишу.");

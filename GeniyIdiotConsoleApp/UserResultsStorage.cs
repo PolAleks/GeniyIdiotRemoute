@@ -4,30 +4,25 @@
     {
         public static void Save(User user)
         {
-            string path = Path.Combine(Environment.CurrentDirectory, "log.txt");
-            using (StreamWriter sw = new StreamWriter(path, true, System.Text.Encoding.Default))
-            {
-                sw.WriteLine($"{user.name}#{user.countCorrectAnswer}#{user.diagnosis}");
-            }
+            string file = "log.txt";
+            string content = $"{user.name}#{user.countCorrectAnswer}#{user.diagnosis}";
+
+            FileServices.Save(file, content);
         }
 
         public static List<User> GetAll()
         {
             var users = new List<User>();
-            string path = Path.Combine(Environment.CurrentDirectory, "log.txt");
-            if (File.Exists(path))
+            var file = "log.txt";
+
+            foreach(var line in FileServices.Load(file)) 
             {
-                using (StreamReader sr = new StreamReader(path))
-                {
-                    while (!sr.EndOfStream)
-                    {
-                        var line = sr.ReadLine().Split('#');
-                        (string name, int countCorrectAnswer, string diagnosis) = (line[0], Convert.ToInt32(line[1]), line[2]);
-                        users.Add(new User(name, countCorrectAnswer, diagnosis));
-                    }
-                }
+                var item = line.Split('#');
+                (string name, int countCorrectAnswer, string diagnosis) = (item[0], Convert.ToInt32(item[1]), item[2]);
+                users.Add(new User(name, countCorrectAnswer, diagnosis));
             }
+        
             return users;
         }
-    }
+}
 }
