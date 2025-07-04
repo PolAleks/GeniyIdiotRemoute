@@ -23,7 +23,13 @@
 
         public static void Add(Question question)
         {
-            throw new NotImplementedException();
+            if (File.Exists(_path))
+            {
+                using (StreamWriter sw = new StreamWriter(_path, true, System.Text.Encoding.Default))
+                {
+                    sw.WriteLine(question);
+                }
+            }
         }
 
         static void Shuffle(List<Question> questions)
