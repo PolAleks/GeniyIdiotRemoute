@@ -123,7 +123,7 @@
                 string input = Console.ReadLine()?.ToLower() ?? string.Empty;
                 if (input == "да") return true;
                 else if (input == "нет") return false;
-                else Console.Write("Некорректный ввод! Повторить тест? (да/нет): ");
+                else Console.Write("Некорректный ввод! Введите да или нет: ");
             }
         }
 
