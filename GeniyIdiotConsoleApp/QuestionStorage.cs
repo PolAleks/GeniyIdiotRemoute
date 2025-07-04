@@ -23,13 +23,7 @@
 
         public static void Add(Question question)
         {
-            if (File.Exists(_file))
-            {
-                using (StreamWriter sw = new StreamWriter(_file, true, System.Text.Encoding.Default))
-                {
-                    sw.WriteLine(question);
-                }
-            }
+            FileServices.Save(_file, question.ToString());
         }
 
         static void Shuffle(List<Question> questions)
