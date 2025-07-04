@@ -2,20 +2,29 @@
 {
     public class QuestionStorage
     {
-        public static List<Question> GetAllQuestions()
+        public static List<Question> GetAll()
         {
-            var questions = new List<Question>
+            var path = Path.Combine(Environment.CurrentDirectory, "questions.txt");
+            var lines = FileServices.Load(path);
+
+            var questions = new List<Question>();
+            foreach (var line in lines)
             {
-                new Question("Сколько будет два плюс два умноженное на два?", 6),
-                new Question("Бревно нужно распилить на 10 частей. Сколько распилов нужно сделать?", 9),
-                new Question("На двух руках 10 пальцев. Сколько пальцев на 5 руках?", 25),
-                new Question("Укол делают каждые полчаса. Сколько нужно минут, чтобы сделать три укола?",60),
-                new Question("Пять свечей горело, две потухли. Сколько свечей осталось?", 2),
-            };
+                var item = line.Split('#');
+                (string textQuestion, int answerQuestion) = (item[0], Convert.ToInt32(item[1]));
+                questions.Add(new Question(textQuestion, answerQuestion));
+            }
+
             Shuffle(questions);
 
             return questions;
         }
+
+        public static void Add()
+        {
+            throw new NotImplementedException();
+        }
+
         static void Shuffle(List<Question> questions)
         {
             var shuffleQuestions = new List<Question>();

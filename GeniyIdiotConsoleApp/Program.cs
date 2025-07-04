@@ -29,7 +29,8 @@
                             StartTesting();
                             break;
                         case 3:
-                            QuestionStorage.AddQuestion();
+                            QuestionStorage.Add();
+                            break;
                         default:
                             Console.WriteLine("Некорректный выбор! Можно ввести от 1 до 3");
                             Console.ReadKey();
@@ -48,7 +49,7 @@
         {
             do
             {
-                var questions = QuestionStorage.GetAllQuestions();
+                var questions = QuestionStorage.GetAll();
 
                 Console.Write("Напиши своё имя: ");
                 string userName = Console.ReadLine() ?? "Неизвестный";
