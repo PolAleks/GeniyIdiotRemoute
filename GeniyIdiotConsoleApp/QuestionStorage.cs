@@ -2,10 +2,11 @@
 {
     public class QuestionStorage
     {
+        readonly static string _path = Path.Combine(Environment.CurrentDirectory, "questions.txt");
+
         public static List<Question> GetAll()
         {
-            var path = Path.Combine(Environment.CurrentDirectory, "questions.txt");
-            var lines = FileServices.Load(path);
+            var lines = FileServices.Load(_path);
 
             var questions = new List<Question>();
             foreach (var line in lines)
@@ -20,7 +21,7 @@
             return questions;
         }
 
-        public static void Add()
+        public static void Add(Question question)
         {
             throw new NotImplementedException();
         }
