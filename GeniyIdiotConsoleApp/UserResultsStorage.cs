@@ -5,9 +5,7 @@
         readonly static string _file = "log.txt";
         public static void Save(User user)
         {
-            string content = $"{user.name}#{user.countCorrectAnswer}#{user.diagnosis}";
-
-            FileServices.Save(_file, content);
+            FileServices.Save(_file, user.ToString());
         }
 
         public static List<User> GetAll()
