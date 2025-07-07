@@ -65,17 +65,15 @@ namespace GeniyIdiotConsoleApp
 
             Console.Write("Выберите номер вопроса, который необходимо удалить: ");
             int numberQuestion = GetNumber();
-            numberQuestion--;
 
-            while (numberQuestion < 0 || numberQuestion >= questions.Count )
+            while (numberQuestion < 1 || numberQuestion > questions.Count )
             {
                 Console.WriteLine("Выбор доступен от 1 до {0}!", questions.Count);
                 Console.Write("Введите номер: ");
                 numberQuestion = GetNumber();
-                numberQuestion--;
             }
 
-            QuestionStorage.Delete(questions[numberQuestion]);
+            QuestionStorage.Delete(questions[--numberQuestion]);
         }
 
         private static void AddNewQuestion()

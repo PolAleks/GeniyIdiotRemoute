@@ -43,6 +43,10 @@
             FileServices.Save(_file, question.ToString());
         }
 
+        public static void Delete(Question question)
+        {
+            FileServices.Delete(_file, question.ToString());
+        }
         static void Shuffle(List<Question> questions)
         {
             var shuffleQuestions = new List<Question>();
@@ -54,11 +58,6 @@
                 questions.RemoveAt(index);
             }
             questions.AddRange(shuffleQuestions);
-        }
-
-        internal static void Delete(Question question)
-        {
-            FileServices.Delete(_file, question);
         }
     }
 }

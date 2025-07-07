@@ -35,6 +35,7 @@
                 _ => "Идиот"
             };
         }
-          
+
+        public override string ToString() => $"{name}#{countCorrectAnswer}#{diagnosis}";
     }
 }

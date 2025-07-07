@@ -30,12 +30,12 @@
             return File.Exists(file);
         }
 
-        public static void Delete(string file, Question question)
+        public static void Delete(string file, string item)
         {
             if (Exists(file))
             {
                 var lines = File.ReadAllLines(file).ToList();
-                lines.RemoveAll(q => q.Equals(question.ToString()));
+                lines.RemoveAll(q => q.Equals(item.ToString()));
                 File.WriteAllLines(file, lines);
             }
         }
