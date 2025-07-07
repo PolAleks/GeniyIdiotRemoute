@@ -57,7 +57,7 @@
                 textQuestion = Console.ReadLine();
 
                 Console.Write("Введите ответ на вопрос(только цифры): ");
-                answerQuestion = GetUserAnswer();
+                answerQuestion = GetNumber();
 
                 Console.WriteLine($"Текст вопроса: {textQuestion}");
                 Console.WriteLine($"Ответ на вопрос: {answerQuestion}");
@@ -82,7 +82,7 @@
                 for (int i = 0; i < questions.Count; i++)
                 {
                     Console.WriteLine($"Вопрос №{i + 1} \n{questions[i].text}");
-                    (int userAnswer, int correctAnswer) = (GetUserAnswer(), questions[i].answer);
+                    (int userAnswer, int correctAnswer) = (GetNumber(), questions[i].answer);
                     if (userAnswer == correctAnswer)
                         user.AddCorrectAnswer();
                 }
@@ -97,7 +97,7 @@
         }
 
 
-        static int GetUserAnswer()
+        static int GetNumber()
         {
             while (true)
             {
