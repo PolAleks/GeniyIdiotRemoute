@@ -10,7 +10,6 @@
 
             if (FileServices.Exists(_file))
             {
-
                 var lines = FileServices.Load(_file);
 
                 foreach (var line in lines)

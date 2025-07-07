@@ -9,13 +9,7 @@
 
             if (File.Exists(path))
             {
-                using (StreamReader sr = new StreamReader(path))
-                {
-                    while (!sr.EndOfStream)
-                    {
-                        lines.Add(sr.ReadLine());
-                    }
-                }
+                lines = File.ReadAllLines(path).ToList();
             }
 
             return lines;
