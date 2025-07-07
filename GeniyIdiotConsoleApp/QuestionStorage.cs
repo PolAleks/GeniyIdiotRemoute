@@ -59,7 +59,7 @@
 
         internal static void Delete(Question question)
         {
-            throw new NotImplementedException();
+            FileServices.Delete(_file, question);
         }
     }
 }
