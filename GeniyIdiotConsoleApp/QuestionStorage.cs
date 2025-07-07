@@ -56,5 +56,10 @@
             }
             questions.AddRange(shuffleQuestions);
         }
+
+        internal static void Delete(Question question)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
