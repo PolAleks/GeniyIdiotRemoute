@@ -30,5 +30,10 @@
                 sr.WriteLine(content);
             }
         }
+
+        public static bool Exists(string file)
+        {
+            return File.Exists(file);
+        }
     }
 }
