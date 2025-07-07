@@ -1,4 +1,7 @@
-﻿namespace GeniyIdiotConsoleApp
+﻿using System.Runtime.InteropServices.JavaScript;
+using System.Security.Cryptography;
+
+namespace GeniyIdiotConsoleApp
 {
     internal class Program
     {
@@ -16,7 +19,8 @@
                 Console.WriteLine("1. Показать результаты тестирования.");
                 Console.WriteLine("2. Пройти тестирование.");
                 Console.WriteLine("3. Добавить новый вопрос.");
-                Console.Write("Введите номер пункта меню от 1 до 3: ");
+                Console.WriteLine("4. Удалить существующий вопрос.");
+                Console.Write("Введите номер пункта меню от 1 до 4: ");
                 string userChoice = Console.ReadLine() ?? string.Empty;
                 if (int.TryParse(userChoice, out int choce))
                 {
@@ -31,8 +35,11 @@
                         case 3:
                             AddNewQuestion();
                             break;
+                        case 4:
+                            DeleteQuestion();
+                            break;
                         default:
-                            Console.WriteLine("Некорректный выбор! Можно ввести от 1 до 3");
+                            Console.WriteLine("Некорректный выбор! Можно ввести от 1 до 4");
                             Console.ReadKey();
                             continue;
                     }
@@ -43,6 +50,32 @@
                     Console.ReadKey();
                 }
             }
+        }
+
+        private static void DeleteQuestion()
+        {
+            Console.Clear();
+
+            Console.WriteLine("Список вопросов:");
+            var questions = QuestionStorage.GetAll();
+            for (int i = 0; i < questions.Count; i++)
+            {
+                Console.WriteLine($"Вопрос №{i + 1}. {questions[i].text}");
+            }
+
+            Console.Write("Выберите номер вопроса, который необходимо удалить: ");
+            int numberQuestion = GetNumber();
+            numberQuestion--;
+
+            while (numberQuestion < 0 || numberQuestion >= questions.Count )
+            {
+                Console.WriteLine("Выбор доступен от 1 до {0}!", questions.Count);
+                Console.Write("Введите номер: ");
+                numberQuestion = GetNumber();
+                numberQuestion--;
+            }
+
+            QuestionStorage.Delete(questions[numberQuestion]);
         }
 
         private static void AddNewQuestion()

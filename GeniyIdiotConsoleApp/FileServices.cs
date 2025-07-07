@@ -35,5 +35,15 @@
         {
             return File.Exists(file);
         }
+
+        public static void Delete(string file, Question question)
+        {
+            if (Exists(file))
+            {
+                var lines = File.ReadAllLines(file).ToList();
+                lines.RemoveAll(q => q.Equals(question.ToString()));
+                File.WriteAllLines(file, lines);
+            }
+        }
     }
 }
